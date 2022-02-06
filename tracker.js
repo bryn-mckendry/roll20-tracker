@@ -15,6 +15,11 @@
 
   /* --- Utility Functions --- */
 
+  const getTurnOrder = () => {
+    let turnOrder = Campaign().get('turnorder');
+    turnOrder === '' ? turnOrder = [] : turnOrder = JSON.parse(turnOrder);
+    return turnOrder;
+  }
 
   const getRoundsFromInput = input => {
     let roundsMatch = input.match(/(-r|--rounds)\s\d+/);
@@ -93,14 +98,11 @@
 
       const rounds = getRoundsFromInput(command);
 
-      let turnOrder = Campaign().get('turnorder');
-      turnOrder === '' ? turnOrder = [] : turnOrder = JSON.parse(turnOrder);
-      
+      let turnOrder = getTurnOrder();
       if (turnOrder.filter(t => t.custom === `[TrackerBot] ${name}`).length !== 0) {
         Tracker.sendWhisper(requester, 'This name already exists!');
         return;
       }
-
       turnOrder.unshift({
         id: '-1',
         pr: `${rounds || 0}`,
