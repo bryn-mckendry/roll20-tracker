@@ -15,6 +15,7 @@
 
   /* --- Utility Functions --- */
 
+
   const getRoundsFromInput = input => {
     let roundsMatch = input.match(/(-r|--rounds)\s\d+/);
     if (!roundsMatch) {
@@ -35,7 +36,7 @@
 
   const Tracker = {
 
-    botName: 'Tracker Bot',
+    botName: 'TrackerBot',
 
     sendChat: function(msg) {
       sendChat(this.botName, msg);
@@ -130,5 +131,5 @@
 
       Tracker.processCommand(msg.who, command);
     });
-  });
+  }); 
 })();
