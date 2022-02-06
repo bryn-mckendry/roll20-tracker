@@ -43,6 +43,16 @@
 
     botName: 'TrackerBot',
 
+    removeCompletedTrackers: function() {
+      let turnOrder = getTurnOrder();
+      const isComplete = turn => +turn.pr === 0 && turn.custom.startsWith('[TrackerBot]');
+      let completed = turnOrder.filter(isComplete);
+      if (completed.length > 0) {
+        let valid = turnOrder.filter(t => +t.pr > 0 || !t.custom.startsWith('[TrackerBot]'))
+        Campaign().set('turnorder', JSON.stringify(valid));
+      }
+    },
+
     sendChat: function(msg) {
       sendChat(this.botName, msg);
     },
@@ -133,5 +143,9 @@
 
       Tracker.processCommand(msg.who, command);
     });
-  }); 
+
+    on('change:campaign:turnorder', () => {
+      Tracker.removeCompletedTrackers();
+    })
+  });
 })();
