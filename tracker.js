@@ -50,6 +50,10 @@
       if (completed.length > 0) {
         let valid = turnOrder.filter(t => +t.pr > 0 || !t.custom.startsWith('[TrackerBot]'))
         Campaign().set('turnorder', JSON.stringify(valid));
+        completed.forEach(t => {
+          let name = t.custom.split('[TrackerBot]')[1];
+          this.sendChat(`<p><strong>${name}</strong> effect has completed!</p>`);
+        })
       }
     },
 
