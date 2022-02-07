@@ -122,9 +122,19 @@
         pr: `${rounds || 0}`,
         custom: `[TrackerBot] ${name}`,
         formula: `${rounds ? -1 : 1}`
-      }) 
+      });
       Campaign().set('turnorder', JSON.stringify(turnOrder));
-      Tracker.sendChat(`${name} is now being tracked for ${requester}.${rounds ? `${rounds} rounds remaining.` : '' }`);
+      let response = '<div style="padding-top: 10px; text-align: center; background-color: white; color: #00458b; box-shadow: 0px 5px 10px rgba(0,0,0,0.2);">'
+      + `<h2>${name}</h2>`
+      + `<p style="padding: 0px 14px;">is being tracked by <strong><i>${requester}!</i></strong></p>`
+      + '<div style="width: 100%; background-color: #99ddff; color: #4c6e7f; padding-top: 4px; padding-bottom: 4px;">'
+      + (rounds
+          ? `<h3 style="color: #4c6e7f; margin-bottom: 0px; padding-bottom: 0px;">${rounds}</h3><p style="margin-top: 0px; padding-top: 0px;">rounds remaining</p>`
+          : '<p>Counter will increment each round</p>'
+        )
+      + '</div>'
+      + '</div>';
+      Tracker.sendChat(response);
     },
 
     processCommand: function(requester, command) {
@@ -144,7 +154,6 @@
       if (msg.playerid === 'API') return;
       let command = msg.content;
       if (!command.match(/!tracker\s.*/)) return; // No a command, no feedback.
-
       Tracker.processCommand(msg.who, command);
     });
 
