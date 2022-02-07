@@ -118,14 +118,16 @@
       const rounds = getRoundsFromInput(command);
 
       let turnOrder = getTurnOrder();
-      if (turnOrder.filter(t => t.custom === `[TrackerBot] ${name}`).length !== 0) {
+      if (turnOrder.filter(
+        t => t.custom === `[TrackerBot] ${name}` || t.custom === `[TrackerBot+]  ${name}`
+      ).length !== 0) {
         Tracker.sendWhisper(requester, 'This name already exists!');
         return;
       }
       turnOrder.unshift({
         id: '-1',
         pr: `${rounds || 0}`,
-        custom: `[TrackerBot] ${name}`,
+        custom: `${rounds ? '[TrackerBot]' : '[TrackerBot+]'} ${name}`,
         formula: `${rounds ? -1 : 1}`
       });
       Campaign().set('turnorder', JSON.stringify(turnOrder));
