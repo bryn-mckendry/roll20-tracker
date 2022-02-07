@@ -52,7 +52,12 @@
         Campaign().set('turnorder', JSON.stringify(valid));
         completed.forEach(t => {
           let name = t.custom.split('[TrackerBot]')[1];
-          this.sendChat(`<p><strong>${name}</strong> effect has completed!</p>`);
+          this.sendChat(
+            '<div style="padding: 18px; background-color: #FC8181;">'
+            + '<div style="float: left; color: #9B2C2C; font-size: 20px; font-weight: bold">!</div>'
+            + `<span style="margin-left: 20px; font-size: 16px;"><strong>${name}</strong> has expired.</span>`
+            + '</div>'
+          )
         })
       }
     },
